@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>
+        Tofu Boutique - {% block title %}{% endblock %} 
+    </title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Favicon icon -->
+    <link rel="icon" href="/static/shop/assets/favicon.ico" type="image/x-icon">
+    <!-- select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    
+    
+    <!-- Specific Page CSS goes HERE  -->
+    {% block stylesheets %}{% endblock stylesheets %}
+
+    <!-- vendor css -->
+    <link rel="stylesheet" href="/static/shop/css/style.css">
+    
+</head>
+<body class="">
+
+	<!-- [ Pre-loader ] start -->
+	<div class="loader-bg">
+		<div class="loader-track">
+			<div class="loader-fill"></div>
+		</div>
+	</div>
+	<!-- [ Pre-loader ] End -->
+    
+    {% include '../includes/sidebar.html' %} 
+
+    {% include '../includes/navigation.html' %}
+
+    {% block content %}
+    {% endblock content %}
+
+    {% include '../includes/scripts.html' %} 
+
+    <!-- Specific Page JS goes HERE  -->
+    <script>
+        $(document).ready(function() {
+        $('select').addClass('js-example-basic-single').select2({ width: 'max-content', dropdownAutoWidth : true,});
+    });
+    </script>
+    {% block javascripts %}{% endblock javascripts %}
+    
+</body>
+</html>
+
