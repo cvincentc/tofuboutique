@@ -6,4 +6,4 @@ class Property(models.Model):
     value = models.CharField(max_length=50, null=False, blank=False)
 
     def __str__(self):
-        " - ".join(filter(None, (self.name, self.value)))
+        return " - ".join(filter(None, (self.name, self.value)))
