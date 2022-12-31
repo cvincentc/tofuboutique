@@ -2,3 +2,7 @@ awscli
 boto3
 nanoid
 django-environ
+django-storages
+pymysql
+mysqlclient
+Pillow==9.3.0

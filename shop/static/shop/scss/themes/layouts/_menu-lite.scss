@@ -161,12 +161,17 @@
     box-shadow: 0 0 11px rgba(0,0,0,0.13);
 
     .m-header {
-        width: $Menu-width;
+        width: 100%;
         position: relative;
         height: $header-height;
-        display: inline-flex;
+        display: flex;
         align-items: center;
+        justify-content: center;
         padding: 0 25px;
+
+        .mobile-menu {
+            left: 10px;
+        }
 
         .logo-dark,
         .logo-thumb {
