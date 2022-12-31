@@ -3183,3 +3183,12 @@ body.box-layout {
     }
 }
 /* ====== [ Box end ] ======== */
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(100%);
+}
+
+.carousel-indicators li {
+    filter: invert(100%);
+}
