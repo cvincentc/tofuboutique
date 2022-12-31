@@ -17684,6 +17684,9 @@ body.box-layout {
 .carousel-control-next-icon {
   filter: invert(100%); }
 
+.carousel-indicators {
+  bottom: -30px; }
+
 .carousel-indicators li {
   filter: invert(100%); }
 
