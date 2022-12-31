@@ -4,6 +4,7 @@ from .image import Image
 from .category import Category
 from ..utils.choice import *
 from django.utils.timezone import datetime
+from .property import Property
 import uuid
 
 class Product(models.Model):
@@ -23,6 +24,7 @@ class Product(models.Model):
     #prices
     reference_price = models.FloatField(default=0.0)
     retail_price = models.FloatField(default=0.0)
+    product_price = models.FloatField(default=0.0)
     resell_price = models.FloatField(default=0.0)
     tax_percentage = models.FloatField(default=0)
 
@@ -35,11 +37,10 @@ class Product(models.Model):
         brand_name = None
         if self.brand:
             brand_name = self.brand.short_name
-        return " - ".join(filter(None, (brand_name, self.name, self.status, self.stock_quantity)))
+        return " - ".join(filter(None, [brand_name, self.name, self.status, str(self.stock_quantity)]))
 
     def calculate_resell_price(self):
-        if self.retail_price and self.retail_price > 0:
-            purchase_price = 0
+        if self.product_price and self.product_price > 0:
             profit_percentage = 0
             if self.related_promotions:
                 promotion = self.related_promotions.latest('expire_date')
@@ -49,16 +50,19 @@ class Product(models.Model):
                 post_discount_amount_off = promotion.post_discount_amount_off | 0
                 tax_percentage = self.tax_percentage
                 purchase_price = \
-                    ((self.retail_price - pre_discount_amount_off) \
+                    ((self.product_price - pre_discount_amount_off) \
                     * (100 - discount_percentage) / 100 \
                     * (100 - additional_discount_percentage) / 100
                     - post_discount_amount_off) \
                     * (1 + tax_percentage / 100)
                 profit_percentage = self.promotion_profit_percentage
             else:
-                purchase_price = self.retail_price * (1 + self.tax_percentage / 100)
+                purchase_price = self.product_price * (1 + self.tax_percentage / 100)
                 profit_percentage = self.regular_profit_percentage
             self.resell_price = purchase_price * (1 + profit_percentage / 100)
+            rate_property = Property.objects.filter(name='conversion_rate').first()
+            if rate_property:
+                self.resell_price = self.resell_price * float(rate_property.value)
             self.resell_price = round(self.resell_price, 2)
         else:
             raise Exception("Invalid retail price")
