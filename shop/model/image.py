@@ -8,7 +8,7 @@ from shop.utils.choice import TokenPrefix
 import uuid
 
 class Image(models.Model):
-    url = models.CharField(unique=True, max_length=100, default="", blank=True, null=False)
+    url = models.CharField(unique=True, max_length=150, default="", blank=True, null=False)
     color = models.ForeignKey(Color, on_delete=models.SET_NULL, null=True, blank=True)
     file = models.ImageField(upload_to='images/', null=True, blank=True)
     filename = models.CharField(max_length=50, blank=True, null=True)
