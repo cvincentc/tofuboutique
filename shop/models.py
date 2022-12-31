@@ -7,6 +7,7 @@ from shop.model.product import Product
 from shop.model.promotion import Promotion
 from shop.model.size import Size
 from shop.model.tag import Tag
+from shop.model.property import Property
 
 
 # Create your models here.
