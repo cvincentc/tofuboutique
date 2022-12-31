@@ -7,7 +7,10 @@
             </ul> {% endcomment %}
             <ul class="nav pcoded-inner-navbar ">
                 <li class="nav-item">
-                    <a href="/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Home</span></a>
+                    <a href="{% url 'shop:index' %}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Home</span></a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'shop:products' %}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-package"></i></span><span class="pcoded-mtext">Shop</span></a>
                 </li>
             </ul>
         </li>
