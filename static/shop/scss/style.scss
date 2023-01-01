@@ -72,3 +72,8 @@ File: style.css
 @import "themes/pages/fullcalender";
 @import "themes/pages/icon-lauouts";
 @import "themes/pages/user";
+
+.max-wid-rem-8 {
+    max-width: 8rem;
+    height: auto;
+}
