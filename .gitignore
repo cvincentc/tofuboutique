@@ -1,5 +1,5 @@
 # node_modules
-*.node_modules/
+*node_modules/
 
 # vscode
 .vscode/
@@ -133,3 +133,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# model migrations
+*/migrations/
+
+# root statics
+/static/
