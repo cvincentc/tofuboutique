@@ -82,7 +82,7 @@
                                         <h5 class="job-card-desc">{{ product.brand }}</h5>
                                         <p>{{ product.name }}</p>
                                         <div class="job-meta-data mb-1">NT<i class="fas fa-dollar-sign"></i>
-                                            {% if product.resell_price_nt != product.reference_price_nt %}
+                                            {% if product.resell_price_nt < product.reference_price_nt %}
                                                 <span class="strikethrough border-color-red">{{ product.reference_price_nt }}</span>
                                                 <i class="fas fa-arrow-right"></i>
                                             {% endif %}

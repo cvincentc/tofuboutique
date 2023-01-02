@@ -33,3 +33,18 @@ def brand(request, slug):
     products = Product.objects.filter(brand=brand)
     context['products'] = products
     return render(request, 'shop/home/brand-products.html', context)
+
+def clothes(request):
+    return product_by_category(request, 'clothes')
+
+def snacks(request):
+    return product_by_category(request, 'snack')
+
+def product_by_category(request, category_str):
+    context = {}
+    alerts = []
+    category = get_object_or_404(Category, name=category_str)
+    print(category.related_products.all())
+    products = category.related_products.all()
+    context['products'] = products
+    return render(request, 'shop/home/products.html', context)
