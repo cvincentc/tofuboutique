@@ -22146,8 +22146,21 @@ new-task label input[type=checkbox] {
         border-bottom-right-radius: 5px; }
 
 /**====== user card css end ======**/
-.max-wid-rem-8 {
-  max-width: 8rem;
-  height: auto; }
+.strikethrough {
+  position: relative; }
+
+.strikethrough:before {
+  position: absolute;
+  content: "";
+  left: 0;
+  top: 50%;
+  right: 0;
+  border-top: 2px solid;
+  border-color: inherit;
+  opacity: 0.5;
+  transform: rotate(10deg); }
+
+.border-color-red {
+  border-color: red !important; }
 
 /*# sourceMappingURL=style.css.map */

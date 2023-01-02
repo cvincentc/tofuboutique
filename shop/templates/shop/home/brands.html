@@ -12,14 +12,15 @@
     <div class="pcoded-main-container">
         <div class="pcoded-content">
             <div class="row">
-				<div class="col-sm-12 col-md-12 col-lg-12">
+				
                     {% for brand in brands %}
-                        <a class="col-sm-6 col-md-3 m-2 p-15 bg-light d-inline-block max-wid-rem-8" href="{% url 'shop:brands' %}{{brand.slug}}">
+                    <div class="col-md-3 col-xl-2 col-lg-3 col-6 b-brand">
+                        <a class=" m-2 p-15 bg-light d-inline-block" href="{% url 'shop:brands' %}{{brand.slug}}">
                             <img class="w-100" src={{ brand.logo.url }}>
                         </a>
+                    </div>
                     {% endfor %}
-                </div>
-            </div>
+                
             <!-- [ Main Content ] end -->
         </div>
     </div>
