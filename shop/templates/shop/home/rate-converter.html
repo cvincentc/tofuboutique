@@ -9,43 +9,43 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'shop/css/style.css' %}">
 </head>
-<body onload="initialize()">
+<body onload="reset_values()">
     <br/>
     <br/>
-    <form class="">
+    <form >
         <div class="row g-3 justify-content-center">
             <div class="col-lg-3 col-md-3 col-sm-4 col-4">
                 <label for="original_price">Price</label>
-                <input type="number" class="form-control" id="original_price" min="0" oninput="calculate()"/>
+                <input type="number" pattern="\d*" class="form-control" id="original_price" min="0" oninput="calculate()"/>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3 col-3">
                 <label for="tax_percentage">Tax%</label>
-                <input type="number" class="form-control" id="tax_percentage" min="0" oninput="calculate()"/>
+                <input type="number" pattern="\d*" class="form-control" id="tax_percentage" min="0" oninput="calculate()"/>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3 col-3">
                 <label for="rate">Rate</label>
-                <input type="number" class="form-control" id="rate" min="0" oninput="calculate()"/>
+                <input type="number" pattern="\d*" class="form-control" id="rate" min="0" oninput="calculate()"/>
             </div>
         </div>
         <div class="row g-3 justify-content-center">
             <div class="col-lg-2 col-md-3 col-sm-5 col-5">
                 <label for="discount_percentage">Discount</label>
-                <input type="number" class="form-control" id="discount_percentage" min="0" oninput="calculate()"/>
+                <input type="number" pattern="\d*" class="form-control" id="discount_percentage" min="0" oninput="calculate()"/>
             </div>
             <div class="col-lg-2 col-md-3 col-sm-5 col-5">
                 <label for="additional_discount_percentage">Addi. Discount</label>
-                <input type="number" class="form-control" id="additional_discount_percentage" min="0" oninput="calculate()"/>
+                <input type="number" pattern="\d*" class="form-control" id="additional_discount_percentage" min="0" oninput="calculate()"/>
             </div>
         </div>
         <div class="row g-3 justify-content-center">
             <div class="col-lg-2 col-md-3 col-sm-5 col-5">
                 <label for="profit_percentage">profit%</label>
-                <input type="number" class="form-control" id="profit_percentage" oninput="profit_percentage_change()"/>
+                <input type="number" pattern="\d*" class="form-control" id="profit_percentage" oninput="profit_percentage_change()"/>
             </div>
             
             <div class="col-lg-2 col-md-3 col-sm-5 col-5">
                 <label for="ideal_converted_price">Ideal Price(NT)</label>
-                <input type="number" class="form-control" id="ideal_converted_price" oninput="calculate()"/>
+                <input type="number" pattern="\d*" class="form-control" id="ideal_converted_price" oninput="calculate()"/>
             </div>
         </div>
         <br/>
@@ -111,7 +111,6 @@
         
 
         function reset_values() {
-            console.log('213121');
             original_price = null;
             tax_percentage = 12;
             profit_percentage = 0;
@@ -142,7 +141,6 @@
             document.getElementById("profit_amount").innerText = profit_amount;
             document.getElementById("selling_price").innerText = selling_price;
             document.getElementById("converted_selling_price").innerText = converted_selling_price;
-            console.log('21312');
         }
 
         function getVariables() {
