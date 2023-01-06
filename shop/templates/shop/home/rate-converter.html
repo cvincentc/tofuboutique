@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate Converter</title>
+    <!-- CSS only -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'shop/css/style.css' %}">
+</head>
+<body onload="initialize()">
+    <br/>
+    <br/>
+    <form class="">
+        <div class="row g-3 justify-content-center">
+            <div class="col-lg-3 col-md-3 col-sm-4 col-4">
+                <label for="original_price">Price</label>
+                <input type="number" class="form-control" id="original_price" min="0" oninput="calculate()"/>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-3">
+                <label for="tax_percentage">Tax%</label>
+                <input type="number" class="form-control" id="tax_percentage" min="0" oninput="calculate()"/>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-3">
+                <label for="rate">Rate</label>
+                <input type="number" class="form-control" id="rate" min="0" oninput="calculate()"/>
+            </div>
+        </div>
+        <div class="row g-3 justify-content-center">
+            <div class="col-lg-2 col-md-3 col-sm-5 col-5">
+                <label for="discount_percentage">Discount</label>
+                <input type="number" class="form-control" id="discount_percentage" min="0" oninput="calculate()"/>
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-5 col-5">
+                <label for="additional_discount_percentage">Addi. Discount</label>
+                <input type="number" class="form-control" id="additional_discount_percentage" min="0" oninput="calculate()"/>
+            </div>
+        </div>
+        <div class="row g-3 justify-content-center">
+            <div class="col-lg-2 col-md-3 col-sm-5 col-5">
+                <label for="profit_percentage">profit%</label>
+                <input type="number" class="form-control" id="profit_percentage" oninput="profit_percentage_change()"/>
+            </div>
+            
+            <div class="col-lg-2 col-md-3 col-sm-5 col-5">
+                <label for="ideal_converted_price">Ideal Price(NT)</label>
+                <input type="number" class="form-control" id="ideal_converted_price" oninput="calculate()"/>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <div class="container">
+            <div class='row justify-content-center'>
+                <label for="after_discount_price" class="col-5">After Discount:</label>
+                <div class="col-4" id="after_discount_price"></div>
+            </div>
+            <div class='row justify-content-center'>
+                <label for="tax_amount" class="col-5">Tax:</label>
+                <div class="col-4" id="tax_amount"></div> 
+            </div>
+            <div class='row justify-content-center'>
+                <label for="final_price" class="col-5">Final Price:</label>
+                <div class="col-4" id="final_price"></div>  
+            </div>
+            <div class='row justify-content-center'>
+                <label for="profit_amount" class="col-5">Profit:</label>
+                <div class="col-4" id="profit_amount"></div>
+            </div>
+            <div class='row justify-content-center'>
+                <label for="selling_price" class="col-5">Selling Price:</label>
+                <div class="col-4" id="selling_price"></div>
+            </div>
+            <div class='row justify-content-center'>
+                <label for="converted_selling_price" class="col-5">Selling Price(NT):</label>
+                <div class="col-4" id="converted_selling_price"></div>    
+            </div>
+            <br/>
+            <br/>
+            <div class='row'>
+                <div class='col text-center'>
+                    <button class='btn btn-outline-primary' onclick="reset_values()" type="button" >
+                        Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    
+
+    
+    <script>
+        function initialize() {
+            let original_price = null;
+            let tax_percentage = 12;
+            
+            let discount_percentage = 0;
+            let additional_discount_percentage = 0;
+            let rate = 24;
+            let ideal_converted_price = null;
+
+            let after_discount_price = 0;
+            let tax_amount = 0;
+            let final_price = 0;
+            let profit_amount = 0;
+            let selling_price = 0;
+            let converted_selling_price = 0;
+            let profit_percentage = 0;
+        }
+        
+        
+
+        function reset_values() {
+            console.log('213121');
+            original_price = null;
+            tax_percentage = 12;
+            profit_percentage = 0;
+            discount_percentage = 0;
+            additional_discount_percentage = 0;
+            rate = 24;
+            ideal_converted_price = null;
+
+            after_discount_price = null;
+            tax_amount = null;
+            final_price = null;
+            profit_amount = null;
+            selling_price = null;
+            converted_selling_price = null;
+
+
+            document.getElementById("original_price").value = original_price;
+            document.getElementById("tax_percentage").value = tax_percentage;
+            document.getElementById("profit_percentage").value = profit_percentage;
+            document.getElementById("discount_percentage").value = discount_percentage;
+            document.getElementById("additional_discount_percentage").value = additional_discount_percentage;
+            document.getElementById("rate").value = rate;
+            document.getElementById("ideal_converted_price").value = ideal_converted_price;
+
+            document.getElementById("after_discount_price").innerText = after_discount_price;
+            document.getElementById("tax_amount").innerText = tax_amount;
+            document.getElementById("final_price").innerText = final_price;
+            document.getElementById("profit_amount").innerText = profit_amount;
+            document.getElementById("selling_price").innerText = selling_price;
+            document.getElementById("converted_selling_price").innerText = converted_selling_price;
+            console.log('21312');
+        }
+
+        function getVariables() {
+            original_price = document.getElementById("original_price").value;
+            tax_percentage = document.getElementById("tax_percentage").value;
+            profit_percentage = document.getElementById("profit_percentage").value;
+            discount_percentage = document.getElementById("discount_percentage").value;
+            additional_discount_percentage = document.getElementById("additional_discount_percentage").value;
+            rate = document.getElementById("rate").value;
+            ideal_converted_price = document.getElementById("ideal_converted_price").value;
+        }
+
+        function setVariables(set_profit_percentage) {
+            if (set_profit_percentage) {
+                document.getElementById("profit_percentage").value = profit_percentage;
+            }
+            document.getElementById("after_discount_price").innerText = after_discount_price;
+            document.getElementById("tax_amount").innerText = tax_amount;
+            document.getElementById("final_price").innerText = final_price;
+            document.getElementById("profit_amount").innerText = profit_amount;
+            document.getElementById("converted_selling_price").innerText = converted_selling_price;
+            document.getElementById("selling_price").innerText = selling_price;
+        }
+
+        function profit_percentage_change() {
+            document.getElementById("ideal_converted_price").value = null;
+            calculate(false);
+        }
+
+
+        function calculate(set_profit_percentage = true) {
+            getVariables();
+            if (original_price) {
+                after_discount_price = original_price * (1 - discount_percentage / 100) * (1 - additional_discount_percentage / 100);
+                after_discount_price = Math.round(after_discount_price * 1e2) / 1e2;
+                tax_amount = after_discount_price *  tax_percentage / 100;
+                tax_amount = Math.round(tax_amount * 1e2) / 1e2;
+                final_price = after_discount_price + tax_amount;
+                final_price = Math.round(final_price * 1e2) / 1e2;
+                if (ideal_converted_price) {
+                    converted_selling_price = ideal_converted_price;
+                    selling_price = Math.round(ideal_converted_price / rate * 1e2) / 1e2;
+                } else {
+                    selling_price = Math.round(final_price * (1 + profit_percentage / 100) * 1e2) / 1e2;
+                    converted_selling_price = Math.round(selling_price * rate * 1e2) / 1e2;
+                }
+                profit_amount = Math.round((selling_price - final_price) * 1e2) / 1e2;
+                if (ideal_converted_price) {
+                    profit_percentage = Math.round(profit_amount / final_price * 100 * 1e2) / 1e2;
+                }
+            }
+            setVariables(set_profit_percentage);
+        }
+    </script>
+</body>
+</html>

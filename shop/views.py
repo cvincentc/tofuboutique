@@ -48,3 +48,6 @@ def product_by_category(request, category_str):
     products = category.related_products.all()
     context['products'] = products
     return render(request, 'shop/home/products.html', context)
+
+def rate_converter(request):
+    return render(request, 'shop/home/rate-converter.html', {})

@@ -8,5 +8,6 @@ urlpatterns = [
     path('brands/', views.brands, name='brands'),
     path('brands/<slug:slug>/', views.brand, name='brand'),
     path('snacks/', views.snacks, name='snacks'),
-    path('clothes', views.clothes, name='clothes')
+    path('clothes', views.clothes, name='clothes'),
+    path('converter', views.rate_converter, name='converter')
 ]
