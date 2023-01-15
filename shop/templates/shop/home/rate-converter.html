@@ -16,36 +16,36 @@
         <div class="row g-3 justify-content-center">
             <div class="col-lg-3 col-md-3 col-sm-4 col-4">
                 <label for="original_price">Price</label>
-                <input type="number" pattern="\d*" class="form-control" id="original_price" min="0" oninput="calculate()"/>
+                <input type="number" pattern="\d*" class="form-control" id="original_price" min="0" inputmode="decimal" oninput="calculate()"/>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3 col-3">
                 <label for="tax_percentage">Tax%</label>
-                <input type="number" pattern="\d*" class="form-control" id="tax_percentage" min="0" oninput="calculate()"/>
+                <input type="number" pattern="\d*" class="form-control" id="tax_percentage" min="0" inputmode="decimal"  oninput="calculate()"/>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3 col-3">
                 <label for="rate">Rate</label>
-                <input type="number" pattern="\d*" class="form-control" id="rate" min="0" oninput="calculate()"/>
+                <input type="number" pattern="\d*" class="form-control" id="rate" min="0" inputmode="decimal" oninput="calculate()"/>
             </div>
         </div>
         <div class="row g-3 justify-content-center">
             <div class="col-lg-2 col-md-3 col-sm-5 col-5">
                 <label for="discount_percentage">Discount</label>
-                <input type="number" pattern="\d*" class="form-control" id="discount_percentage" min="0" oninput="calculate()"/>
+                <input type="number" pattern="\d*" class="form-control" id="discount_percentage" inputmode="decimal" min="0" oninput="calculate()"/>
             </div>
             <div class="col-lg-2 col-md-3 col-sm-5 col-5">
                 <label for="additional_discount_percentage">Addi. Discount</label>
-                <input type="number" pattern="\d*" class="form-control" id="additional_discount_percentage" min="0" oninput="calculate()"/>
+                <input type="number" pattern="\d*" class="form-control" id="additional_discount_percentage" inputmode="decimal" min="0" oninput="calculate()"/>
             </div>
         </div>
         <div class="row g-3 justify-content-center">
             <div class="col-lg-2 col-md-3 col-sm-5 col-5">
                 <label for="profit_percentage">profit%</label>
-                <input type="number" pattern="\d*" class="form-control" id="profit_percentage" oninput="profit_percentage_change()"/>
+                <input type="number" pattern="\d*" class="form-control" id="profit_percentage" inputmode="decimal" oninput="profit_percentage_change()"/>
             </div>
-            
+
             <div class="col-lg-2 col-md-3 col-sm-5 col-5">
                 <label for="ideal_converted_price">Ideal Price(NT)</label>
-                <input type="number" pattern="\d*" class="form-control" id="ideal_converted_price" oninput="calculate()"/>
+                <input type="number" pattern="\d*" class="form-control" id="ideal_converted_price" inputmode="decimal" oninput="calculate()"/>
             </div>
         </div>
         <br/>
@@ -57,11 +57,11 @@
             </div>
             <div class='row justify-content-center'>
                 <label for="tax_amount" class="col-5">Tax:</label>
-                <div class="col-4" id="tax_amount"></div> 
+                <div class="col-4" id="tax_amount"></div>
             </div>
             <div class='row justify-content-center'>
                 <label for="final_price" class="col-5">Final Price:</label>
-                <div class="col-4" id="final_price"></div>  
+                <div class="col-4" id="final_price"></div>
             </div>
             <div class='row justify-content-center'>
                 <label for="profit_amount" class="col-5">Profit:</label>
@@ -73,7 +73,7 @@
             </div>
             <div class='row justify-content-center'>
                 <label for="converted_selling_price" class="col-5">Selling Price(NT):</label>
-                <div class="col-4" id="converted_selling_price"></div>    
+                <div class="col-4" id="converted_selling_price"></div>
             </div>
             <br/>
             <br/>
@@ -86,14 +86,14 @@
             </div>
         </div>
     </form>
-    
 
-    
+
+
     <script>
         function initialize() {
             let original_price = null;
             let tax_percentage = 12;
-            
+
             let discount_percentage = 0;
             let additional_discount_percentage = 0;
             let rate = 24;
@@ -107,8 +107,8 @@
             let converted_selling_price = 0;
             let profit_percentage = 0;
         }
-        
-        
+
+
 
         function reset_values() {
             original_price = null;
