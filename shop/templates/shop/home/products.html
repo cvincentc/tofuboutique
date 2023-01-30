@@ -1,6 +1,6 @@
 {% extends "../layouts/base.html" %}
 
-{% block title %} Home {% endblock %} 
+{% block title %} 商品 {% endblock %} 
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
@@ -37,26 +37,26 @@
                     <div class="card-columns">
                         {% if products %}
                             {% for product in products %}
-                                <div class="card">
+                                <div class="card" id="product-card-{{ forloop.counter }}">
                                     <div id="carouselControl{{forloop.counter0}}" class="carousel slide" data-ride="false" data-interval="false">
-                                        {% if product.image_list and product.image_list.count > 1 %}
+                                        {% if product.image_set and product.image_set.count > 1 %}
                                             <ol class="carousel-indicators">
-                                                {% for image in product.image_list.all %}
+                                                {% for image in product.image_set.all %}
                                                     <li data-target="#carouselControl{{forloop.parentloop.counter0}}" date-slide-to="{{forloop.counter0}}" class="active"></li>
                                                 {% endfor %}
                                             </ol>
                                         {% endif %}
                                         <div class="carousel-inner">
-                                            {% if not product.image_list or product.image_list.count == 0 %}
+                                            {% if not product.image_set or product.image_set.count == 0 %}
                                                 <div class="carousel-item active">
                                                     <img class="d-block w-100" src="https://s3.us-west-1.wasabisys.com/tofubtq-shop-images/image-icon.png" alt="No image">
                                                 </div>
-                                            {% elif product.image_list.count == 1 %}
+                                            {% elif product.image_set.count == 1 %}
                                                 <div class="carousel-item active">
-                                                    <img class="d-block w-100" src={{ product.image_list.first.url }} alt="Product image">
+                                                    <img class="d-block w-100" src={{ product.image_set.first.url }} alt="Product image">
                                                 </div>
                                             {% else %}
-                                                {% for image in product.image_list.all %}
+                                                {% for image in product.image_set.all %}
                                                     {% if forloop.counter0 == 0 %}
                                                         <div class="carousel-item active">
                                                             <img class="d-block w-100" src={{image.url}} alt="First slide">
@@ -79,19 +79,39 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <h5 class="job-card-desc">{{ product.brand }}</h5>
-                                        <p>{{ product.name }}</p>
-                                        <div class="job-meta-data mb-1">NT<i class="fas fa-dollar-sign"></i>
-                                            {% if product.resell_price_nt < product.reference_price_nt %}
-                                                <span class="strikethrough border-color-red">{{ product.reference_price_nt }}</span>
-                                                <i class="fas fa-arrow-right"></i>
-                                            {% endif %}
-                                            {{ product.resell_price_nt }}
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <h5 class="job-card-desc">{{ product.brand }}</h5>
+                                                <p>{{ product.name }}</p>
+                                                <div class="job-meta-data mb-1">NT<i class="fas fa-dollar-sign"></i>
+                                                    {% if product.resell_price_nt < product.reference_price_nt %}
+                                                        <span class="strikethrough border-color-red">{{ product.reference_price_nt }}</span>
+                                                        <i class="fas fa-arrow-right"></i>
+                                                    {% endif %}
+                                                    {{ product.resell_price_nt }}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <button type="button" class="btn btn-outline-dark font-weight-bolder" onclick="getTags('{{product.token}}')">加入購物車</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             {% endfor %}
                         {% endif %}
+                    </div>
+                </div>
+                <div id="modal-view-product" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="{{ selected_product.token }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="title-{{ selected_product.token }}">{{ selected_product.name }}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>z
+                            <div id="modal-container">
+                                
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

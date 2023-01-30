@@ -1,6 +1,6 @@
 {% extends "../layouts/base.html" %}
 
-{% block title %} Home {% endblock %} 
+{% block title %} 品牌商品 {% endblock %} 
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
@@ -39,24 +39,24 @@
                             {% for product in products %}
                                 <div class="card">
                                     <div id="carouselControl{{forloop.counter0}}" class="carousel slide" data-ride="false" data-interval="false">
-                                        {% if product.image_list and product.image_list.count > 1 %}
+                                        {% if product.image_set and product.image_set.count > 1 %}
                                             <ol class="carousel-indicators">
-                                                {% for image in product.image_list.all %}
+                                                {% for image in product.image_set.all %}
                                                     <li data-target="#carouselControl{{forloop.parentloop.counter0}}" date-slide-to="{{forloop.counter0}}" class="active"></li>
                                                 {% endfor %}
                                             </ol>
                                         {% endif %}
                                         <div class="carousel-inner">
-                                            {% if not product.image_list or product.image_list.count == 0 %}
+                                            {% if not product.image_set or product.image_set.count == 0 %}
                                                 <div class="carousel-item active">
                                                     <img class="d-block w-100" src="https://s3.us-west-1.wasabisys.com/tofubtq-shop-images/image-icon.png" alt="No image">
                                                 </div>
-                                            {% elif product.image_list.count == 1 %}
+                                            {% elif product.image_set.count == 1 %}
                                                 <div class="carousel-item active">
-                                                    <img class="d-block w-100" src={{ product.image_list.first.url }} alt="Product image">
+                                                    <img class="d-block w-100" src={{ product.image_set.first.url }} alt="Product image">
                                                 </div>
                                             {% else %}
-                                                {% for image in product.image_list.all %}
+                                                {% for image in product.image_set.all %}
                                                     {% if forloop.counter0 == 0 %}
                                                         <div class="carousel-item active">
                                                             <img class="d-block w-100" src={{image.url}} alt="First slide">
@@ -79,14 +79,21 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <h5 class="job-card-desc">{{ product.brand }}</h5>
-                                        <p>{{ product.name }}</p>
-                                        <div class="job-meta-data mb-1">NT<i class="fas fa-dollar-sign"></i>
-                                            {% if product.resell_price_nt < product.reference_price_nt %}
-                                                <span class="strikethrough border-color-red">{{ product.reference_price_nt }}</span>
-                                                <i class="fas fa-arrow-right"></i>
-                                            {% endif %}
-                                            {{ product.resell_price_nt }}
+                                        <div class="flex-column">
+                                            <div>
+                                                <h5 class="job-card-desc">{{ product.brand }}</h5>
+                                                <p>{{ product.name }}</p>
+                                                <div class="job-meta-data mb-1">NT<i class="fas fa-dollar-sign"></i>
+                                                    {% if product.resell_price_nt < product.reference_price_nt %}
+                                                        <span class="strikethrough border-color-red">{{ product.reference_price_nt }}</span>
+                                                        <i class="fas fa-arrow-right"></i>
+                                                    {% endif %}
+                                                    {{ product.resell_price_nt }}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                sadas
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

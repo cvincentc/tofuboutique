@@ -1,0 +1,1 @@
+./static/shop/ 'gulp scss' to apply scss changes

@@ -19,3 +19,8 @@ class ProductStatusChoices(models.TextChoices):
 class TokenPrefix(models.TextChoices):
     IMAGE_PREFIX = 'img-',
     
+class AlertTypeChoices(models.TextChoices):
+    ERROR = 'error'
+    SUCCESS = 'success'
+    WARNING = 'warning'
+    INFO = 'info'

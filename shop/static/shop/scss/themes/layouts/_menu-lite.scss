@@ -2212,8 +2212,21 @@
         }
     }
 }
+
+// ==========================    Shopping Cart Start     ======================
+.shopping-cart-icon {
+    background: url('/static/shop/images/icon-shopping-cart-left.png');
+    display: block;
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 1025;
+    position: relative;
+  }
+// ==========================    Shopping Cart End     ======================
+
 // ==========================    Menu Styler Start     ======================
-$style-block-width: 400px;
+$style-block-width: 300px;
+$style-block-max-height: 500px;
 
 .menu-styler {
     z-index: 1029;
@@ -2232,40 +2245,27 @@ $style-block-width: 400px;
     .style-toggler {
         > a {
             position: fixed;
-            right: 0;
+            right: 5px;
             top: 200px;
+            width: 55px;
+            height: 55px;
+            display: grid;
+            place-items: center;
             z-index: 1031;
             transition: 0.15s ease-in-out;
 
             &:before {
                 content: "";
-                width: 45px;
-                height: 45px;
+                width: 55px;
+                height: 55px;
                 position: absolute;
                 right: 0;
                 top: 0;
                 z-index: 1001;
-                background: linear-gradient(to right, darken($warning-color,15%), lighten($warning-color,10%));
+                background-color: #ffffff;
                 transition: 0.15s ease-in-out;
-                border-radius: 30px 0 0 30px;
-                box-shadow: -4px 0 8px transparentize($warning-color,0.84), -6px 0 8px rgba(0, 0, 0, 0.1);
-            }
-
-            &:after {
-                content: "\e849";
-                top: 12px;
-                font-size: 21px;
-                position: absolute;
-                right: 11px;
-                font-family: "feather";
-                z-index: 1029;
-                line-height: 1;
-                color: #fff;
-                transition: 0.15s ease-in-out;
-                @media all and (-ms-high-contrast:none) {
-                    line-height: 0.5;
-                    top: 18px;
-                }
+                border-radius: 30px 30px 30px 30px;
+                box-shadow: 0 0 6px #000;
             }
         }
     }
@@ -2274,11 +2274,10 @@ $style-block-width: 400px;
     &.prebuild-open {
         .style-toggler {
             > a {
-                right: $style-block-width;
+                right: $style-block-width + 3px;
                 animation: sh-shake 0s ease infinite;
 
                 &:after {
-                    content: "\e847";
                     animation: anim-rotate 0s linear infinite;
                 }
             }
@@ -2292,7 +2291,17 @@ $style-block-width: 400px;
     &.open {
         .style-block {
             right: 0;
+            max-height: $style-block-max-height;
             box-shadow: -6px 0 12px rgba(0,0,0,0.175);
+        }
+        .background {
+            width: 100vw;
+            height: 100vh;
+            z-index: 1000;
+            position: fixed;
+            right: 0;
+            top: 0;
+            background-color: rgba(0,0,0,0.5);
         }
     }
 
@@ -2305,6 +2314,9 @@ $style-block-width: 400px;
 
     .style-block,
     .style-block-prebuild {
+        max-height: $style-block-max-height;
+        display: flex;
+        flex-direction: column;
         position: fixed;
         top: 140px;
         right: -#{$style-block-width};
@@ -2358,14 +2370,12 @@ $style-block-width: 400px;
     }
 
     .m-style-scroller {
-        padding: 15px 20px;
+        padding: 10px 10px;
+        overflow: auto;
         box-shadow: none;
         background-color: $body-bg;
         border-radius: 4px;
         box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.24);
-    }
-    @media only screen and (max-width: 992px) {
-        display: none;
     }
 }
 @keyframes sh-shake {

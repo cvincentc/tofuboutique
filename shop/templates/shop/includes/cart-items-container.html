@@ -1,0 +1,146 @@
+<div id="cart-item-container" class="container">
+    {% if shopping_cart %}
+      {% for item in shopping_cart.item_set.all %}
+      
+        <div id="cart-item-{{forloop.counter}}" class="cart-item d-flex m-b-10" style="background-color: #f6f7fb;">
+
+          {% if item.image %}
+          <div style="width: 100px; height: 100px; background-image:Url('{{item.image.url}}'); background-size:contain"></div>
+          {% else %}
+          <div style="width: 100px; height: 100px; justify-content: center; align-items: center; display:flex;">
+            <div style="width: 70px; height: 70px; background-image:Url('/static/shop/images/image-icon.png'); background-size:contain"></div>
+          </div>
+          {% endif %}
+          <div class="align-items-center" style=";flex: 1">
+            <div>
+              <div>{{ item.getProductBrand }}</div>
+              <div> {{ item.getProductName }}</div>
+              <div>{{ item.getProductDetailCN }}</div>
+              <div class="d-flex justify-content-between">
+                <div class="cart-quantity" id="cart-item-{{forloop.counter}}-quantity">數量：<span>{{ item.quantity }}</span></div>
+                <div class="cart-quantity-input-container" id="cart-item-{{forloop.counter}}-input-container" style="display:none;">
+                  <div class="d-flex">
+                  <div onclick="decrementInput('#cart-item-{{forloop.counter}}-input', true)" style="align-self: center;"><i class="h4 feather icon-minus-circle"></i></div>
+                  <input class="cart-quantity-input-tag" id="cart-item-{{forloop.counter}}-input" style="width:2rem;" type="number" maxlength="2" min="0">
+                  <div onclick="incrementInput('#cart-item-{{forloop.counter}}-input')" style="align-self: center;"><i class="h4 feather icon-plus-circle"></i></div>
+
+                  </div>
+                </div>
+                <div class="edit-btn" id="cart-item-{{forloop.counter}}-edit" class="p-r-10" onclick="triggerEdit('#cart-item-{{forloop.counter}}')" >修改</div>
+                <div class="cancel-btn" style="display:none;" id="cart-item-{{forloop.counter}}-edit" class="p-r-10" onclick="triggerCancel()" >取消</div>
+                <div class="confirm-btn" style="display:none;" id="cart-item-{{forloop.counter}}-edit" class="p-r-10" onclick="updateQuantity('#cart-item-{{forloop.counter}}')" >確定</div>
+              </div>
+            </div>
+            <input class="item-token" type="hidden" value='{{item.token}}'>
+          </div>
+        </div>
+      
+      {% endfor %}
+      <input class="cart-token" type="hidden" value="{{ shopping_cart.token }}">
+    {% endif %}
+</div>
+<script>
+  var quantityClass = ".cart-quantity";
+  var quantityValueSelector = quantityClass + " span";
+  var inputContainerClass = ".cart-quantity-input-container";
+  var inputClass = ".cart-quantity-input-tag";
+  var cartItemContainerId = '#cart-item-container';
+  var editBtnClass = ".edit-btn";
+  var cancelBtnClass = ".cancel-btn";
+  var confirmBtnClass = ".confirm-btn";
+  var cartTokenClass = ".cart-token";
+  var itemTokenClass = ".item-token";
+
+  async function triggerEdit(containerId) {
+    triggerCancel();
+    var valueSelector = $(containerId + ' ' + quantityValueSelector);
+    var inputSelector = $(containerId + ' ' + inputClass);
+    var value = null;
+    if (valueSelector && valueSelector.text()) {
+      value = parseInt(valueSelector.text());
+    }
+
+    if (valueSelector && inputSelector && value) {
+      inputSelector.val(value);
+      showElement(containerId + ' ' + inputContainerClass);
+      hideElement(containerId + ' ' + quantityClass); 
+      hideElement(containerId + ' ' + editBtnClass);
+      showElement(containerId + ' ' + cancelBtnClass); 
+      showElement(containerId + ' ' + confirmBtnClass);
+    }
+  }
+
+  function triggerCancel() {
+    $(cartItemContainerId + ' ' + quantityClass).show();
+    $(cartItemContainerId + ' ' + inputContainerClass).hide();
+    $(cartItemContainerId + ' ' + editBtnClass).show();
+    $(cartItemContainerId + ' ' + cancelBtnClass).hide();
+    $(cartItemContainerId + ' ' + confirmBtnClass).hide();
+  }
+
+
+  function showElement(elementId) {
+    if ($(elementId)) {
+      $(elementId).show();
+    }
+  }
+  
+  function hideElement(elementId) {
+    if ($(elementId)) {
+      $(elementId).hide();
+    }
+  }
+
+
+  async function updateQuantity(itemContainerId) {
+    var displayValueSelector = $(itemContainerId + ' ' + quantityValueSelector);
+    var inputValueSelector = $(itemContainerId + ' ' + inputClass);
+    var cartTokenSelector = $(cartItemContainerId + ' ' + cartTokenClass);
+    var itemTokenSelector = $(itemContainerId + ' ' + itemTokenClass);
+    if (displayValueSelector && inputValueSelector && cartTokenSelector && itemTokenSelector) {
+      var newValue = parseInt(inputValueSelector.val());
+      var oldValue = parseInt(displayValueSelector.text());
+      var cartToken = cartTokenSelector.val();
+      var itemToken = itemTokenSelector.val();
+      
+      if ((newValue != null && newValue != undefined) && cartToken && itemToken && newValue != oldValue) {
+        await $.ajax({
+          url: '/update-cart-quantity',
+          data: {
+            cart_token: cartToken,
+            item_token: itemToken,
+            quantity: newValue
+          },
+          type: 'POST',
+          success(res) {
+            if (res && res.quantity != null && res.quantity != undefined) {
+              if (displayValueSelector) {
+                if (res.quantity <= 0) {
+                  $(itemContainerId).remove();
+                  var itemClassSelector = $(cartItemContainerId + ' .cart-item');
+                  if (itemClassSelector && itemClassSelector.length <= 0) {
+                    if($('#check-out-btn')) {
+                      $('#check-out-btn').remove();
+                    }
+                  }
+                } else {
+                  $(displayValueSelector).text(res.quantity);
+                  $(inputValueSelector).val(res.quantity);
+                }
+              }
+            }
+          },
+          error(res) {
+            location.reload();
+          },
+          complete: (data) => {
+            triggerCancel();
+          }
+        });
+      } else {
+        triggerCancel();
+      }
+    }
+    
+  }
+</script>

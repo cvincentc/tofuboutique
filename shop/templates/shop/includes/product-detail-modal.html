@@ -1,0 +1,46 @@
+<div id="modal-div">
+    <div>
+        {% if selected_product.related_tags.all.count > 1 %}
+        <select id="selected-product-select" name="color_size" required="true" onchange="onTagSelect('#selected-product-select')">
+            {% for tag in selected_product.related_tags.all %}
+                {% if tag.color and tag.size_list.all.count > 0 %}
+                    {% for size in tag.size_list.all %}
+                        <option value="{{tag.token}}-size:{{size.id}}">{{tag.color}} {{size}}</option>
+                    {% endfor %}
+                {% elif tag.color and not tag.size_list %}
+                    <option value="{{tag.token}}">{{tag.color}}</option>
+                {% elif not tag.color and tag.size_list %}
+                    {% for size in tag.size_list %}
+                    <option value="{{tag.token}}-size:{{size.id}}">{{size}}</option>
+                    {% endfor %}
+                {% else %}
+                    <option value="{{tag.token}}">{{selected_product.name}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        {% endif %}
+        <input id="input-item-token" type="hidden" name="tag_token" value="{{selected_product.related_tags.first.token}}"/>
+        <input id="input-item-size" type="hidden" name="item_size"/>
+        <a onclick="decrementInput('#input-item-quantity')"><i class="feather icon-minus-circle"></i></a>
+        <input id="input-item-quantity" type="number" name="quantity" min="1" max="30" value="1" inputmode="decimal" pattern="\d*"/>
+        <a onclick="incrementInput('#input-item-quantity')"><i class="feather icon-plus-circle"></i></a>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn  btn-secondary" data-dismiss="modal">取消</button>
+        <button type="button" class="btn  btn-primary" onclick="addToCart('#input-item-token','#input-item-size','#input-item-quantity')" >確認</button>
+    </div>
+    <script>
+        function onTagSelect(id) {
+            var value = $(id).val();
+            var values = value.split("-size:");
+            var inputTagToken = $('#input-item-token')
+            var inputTagSize = $('#input-item-size')
+            if (values[0] && inputTagToken) {
+                inputTagToken.val(values[0]);
+            }
+            if (values[1] && inputTagSize) {
+                inputTagSize.val(values[1]);
+            }
+        }
+    </script>
+</div>

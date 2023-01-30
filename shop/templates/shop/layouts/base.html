@@ -39,16 +39,120 @@
 
     {% block content %}
     {% endblock content %}
-
+    {% include '../includes/shopping-cart.html' %}
     {% include '../includes/scripts.html' %} 
-
     <!-- Specific Page JS goes HERE  -->
     <script>
+        document.addEventListener('click', function(event) {
+            const outsideClick = (event.target.id == '#shopping-cart-bg'); //!$('#styleSelector').
+            if (outsideClick) {
+                $('#styleSelector > .style-toggler').click()
+            }
+        });
         $(document).ready(function() {
-        $('select').addClass('js-example-basic-single').select2({ width: 'max-content', dropdownAutoWidth : true,});
-    });
+            var selectElement = $('select');
+            if (selectElement) {
+                selectElement.addClass('js-example-basic-single').select2({ width: 'max-content', dropdownAutoWidth : true, });
+            }
+        });
+
+        async function getTags(token) {
+            await $.ajax({
+                url: '/product/' + token,
+                success: (res) => {
+                    var modalDiv = $("#modal-div");
+                    if (modalDiv) {
+                        modalDiv.remove();
+                    }
+                    var modalContainer = $("#modal-container");
+                    if (modalContainer) {
+                        modalContainer.append(res);
+                        $("#modal-view-product").modal('toggle');
+                    }
+                }
+            });
+        }
+
+        
+        async function addToCart(tagTokenId, sizeId, quantityId) {
+            var token = null;
+            var data = {}
+            if ($(tagTokenId) && $(tagTokenId).val()) {
+                data['tag_token'] = $(tagTokenId).val();
+                token = $(tagTokenId).val();
+            }
+            if ($(sizeId) && $(sizeId).val())
+                data['size'] = $(sizeId).val();
+            if ($(quantityId) && $(quantityId).val())
+                data['quantity'] = $(quantityId).val();
+            if (token) {
+                await $.ajax({
+                    url: '/add-to-cart/' + token,
+                    data: data,
+                    type: 'POST',
+                    success: (res) => {
+                        if ($("#modal-view-product")) {
+                            $("#modal-view-product").modal('hide');
+                        }
+                        var cart_element = $('#cart-item-container');
+                        cart_element.remove();
+                        var cart_container = $('#shopping-cart-container');
+                        if (cart_container && res) {
+                            cart_container.append(res);
+                        }
+                    }
+                });
+            }
+            
+        }
+
+        function incrementInput(id) {
+            var q = $(id).val();
+            $(id).val(Number(q) + 1);
+
+        }
+
+        function decrementInput(id, allowZero=false) {
+            var q = Number($(id).val()) - 1;
+            if (!allowZero && q > 0) {
+                $(id).val(q);
+            } else {
+                if (q >= 0) {
+                    $(id).val(q);
+                }
+            }
+        }
+        
+
+        
     </script>
-    {% block javascripts %}{% endblock javascripts %}
+    {% if remove_cart_toggler %}
+        <script>
+            $(document).ready(() => {
+                $('#styleSelector').remove();
+            });
+        </script>
+    {% endif %}
+    {% block javascripts %}
+        
+    {% endblock javascripts %}
+    <script>
+        import liff from '@line/liff'
+        $(document).ready(() => {
+            liff.init
+        });
+        document.addEventListener("DOMContentLoaded", () => {
+            liff.init({liffId: "1657839732-YKbEZ0Oo"})
+            .then(() => {
+                if (!liff.isLoggedIn()) {
+                    liff.login();
+                    console.log('logged in');
+                }
+            })
+        });
+    </script>
+    
+        
     
 </body>
 </html>

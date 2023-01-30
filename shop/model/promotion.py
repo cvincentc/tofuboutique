@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils.timezone import datetime
-from .product import Product
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.conf import settings
@@ -8,7 +7,7 @@ from shop.utils.property import CONVERSION_RATE as conversion_rate
 import pytz
 
 class Promotion(models.Model):
-    product = models.ForeignKey(Product, verbose_name = '商品', on_delete=models.PROTECT, related_name='related_promotions', null=False, blank=False)
+    product = models.ForeignKey(to="shop.Product", verbose_name = '商品', on_delete=models.PROTECT, related_name='related_promotions', null=False, blank=False)
     discount_percentage = models.FloatField(verbose_name = '折扣',default=0)
     additional_discount_percentage = models.FloatField(verbose_name = '折上折',default=0)
     pre_discount_amount_off = models.FloatField(verbose_name = '稅前減價',default=0)
