@@ -12,12 +12,14 @@ class Tag(models.Model):
     token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     def __str__(self):
-        product_name :str = None,
-        color :str = '',
+        product_name = None,
+        product_color = None,
         if self.product:
             product_name = self.product.name
         if self.color:
-            color = self.color.name
-        return " - ".join(filter(None, (product_name, color, self.sku)))
+            product_color = self.color.name
+        else:
+            product_color = None
+        return " - ".join(filter(None, (product_name, product_color, self.sku)))
 
 
